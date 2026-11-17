@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fiberglass Repair Planner | Marine Trade Utility Hub</title>
+    <style>
+        :root {
+            --primary: #003366;
+            --secondary: #00509e;
+            --accent: #e6f0fa;
+            --text: #333;
+            --bg: #f9f9f9;
+        }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; background-color: var(--bg); color: var(--text); line-height: 1.6; }
+        header { background-color: var(--primary); color: white; padding: 1rem 0; text-align: center; }
+        header h1 { margin: 0; font-size: 1.5rem; }
+        nav { background-color: var(--secondary); padding: 0.5rem; text-align: center; }
+        nav a { color: white; text-decoration: none; margin: 0 15px; font-weight: bold; }
+        nav a:hover { text-decoration: underline; }
+        .container { max-width: 800px; margin: 30px auto; background: white; padding: 30px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        h2 { color: var(--primary); margin-top: 0; }
+        .input-group { margin-bottom: 20px; }
+        label { display: block; font-weight: 600; margin-bottom: 8px; }
+        input, select { width: 100%; padding: 10px; box-sizing: border-box; border: 1px solid #ccc; border-radius: 4px; font-size: 16px; }
+        button { background-color: var(--secondary); color: white; padding: 12px; border: none; border-radius: 4px; cursor: pointer; font-size: 18px; width: 100%; font-weight: bold; transition: background 0.3s; }
+        button:hover { background-color: var(--primary); }
+        .results { margin-top: 30px; padding: 20px; background-color: var(--accent); border-left: 5px solid var(--secondary); border-radius: 4px; display: none; }
+        .result-item { margin-bottom: 12px; font-size: 18px; }
+        .highlight { font-weight: bold; color: var(--primary); font-size: 1.1em; }
+        .affiliate-box { margin-top: 30px; padding: 20px; border: 1px dashed var(--secondary); background-color: #fff; text-align: center; }
+        .affiliate-box h3 { margin-top: 0; color: var(--primary); }
+        .affiliate-btn { display: inline-block; background-color: #ff9900; color: white; padding: 10px 20px; text-decoration: none; border-radius: 4px; font-weight: bold; margin-top: 10px; }
+        .affiliate-btn:hover { background-color: #e68a00; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Marine Trade Utility Hub</h1>
+    </header>
+    <nav>
+        <a href="#">Fiberglass Estimator</a>
+        <a href="#">Gelcoat Estimator</a>
+        <a href="#">Guides</a>
+    </nav>
+    <div class="container">
+        <h2>Fiberglass Repair Planner</h2>
+        <p>Enter your boat repair dimensions to calculate exact materials and estimated costs.</p>
+
+        <div class="input-group">
+            <label>Measurement System:</label>
+            <select id="unitSystem" onchange="toggleUnits()">
+                <option value="imperial">Imperial (Inches)</option>
+                <option value="metric">Metric (Centimeters)</option>
+            </select>
+        </div>
+
+        <div class="input-group">
+            <label id="labelLength">Repair Length (inches):</label>
+            <input type="number" id="length" value="20" min="1">
+        </div>
+        <div class="input-group">
+            <label id="labelWidth">Repair Width (inches):</label>
+            <input type="number" id="width" value="10" min="1">
+        </div>
+        <div class="input-group">
+            <label>Select Fabric Type:</label>
+            <select id="fabricType">
+                <option value="135">4oz / 135g/m² Woven Cloth</option>
+                <option value="200" selected>6oz / 200g/m² Woven Cloth</option>
+                <option value="280">8oz / 280g/m² Woven Cloth</option>
+                <option value="450">13oz / 450g/m² Biaxial Tape</option>
+                <option value="610">18oz / 610g/m² Biaxial Cloth</option>
+            </select>
+        </div>
+        <div class="input-group">
+            <label>Number of Layers:</label>
+            <input type="number" id="layers" value="3" min="1">
+        </div>
+        <div class="input-group">
+            <label>Waste Factor (%) - e.g., 15 for 15%:</label>
+            <input type="number" id="waste" value="15" min="0">
+        </div>
+
+        <button onclick="calculate()">Calculate Materials</button>
+
+        <div class="results" id="resultsDiv">
+            <h3>Your Material Estimate</h3>
+            <div class="result-item">Total Area: <span class="highlight" id="resArea"></span></div>
+            <div class="result-item">Total Fabric Weight: <span class="highlight" id="resWeight"></span></div>
+            <div class="result-item">Total Mixed Epoxy: <span class="highlight" id="resEpoxy"></span></div>
+            <div class="result-item">Estimated Epoxy Cost: <span class="highlight" id="resCost"></span></div>
+            
+            <div class="affiliate-box">
+                <h3>Ready to Buy?</h3>
+                <p>Get the exact amount of marine-grade epoxy delivered to your door.</p>
+                <a href="#" class="affiliate-btn" target="_blank">Shop Epoxy Kits on Amazon</a>
+                <p style="font-size: 12px; color: #666; margin-top: 10px;">*We may earn a commission from qualifying purchases.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleUnits() {
+            let system = document.getElementById('unitSystem').value;
+            if (system === 'metric') {
+                document.getElementById('labelLength').innerText = "Repair Length (cm):";
+                document.getElementById('labelWidth').innerText = "Repair Width (cm):";
+            } else {
+                document.getElementById('labelLength').innerText = "Repair Length (inches):";
+                document.getElementById('labelWidth').innerText = "Repair Width (inches):";
+            }
+        }
+
+        function calculate() {
+            let system = document.getElementById('unitSystem').value;
+            let length = parseFloat(document.getElementById('length').value);
+            let width = parseFloat(document.getElementById('width').value);
+            let layers = parseFloat(document.getElementById('layers').value);
+            let fabricWeight = parseFloat(document.getElementById('fabricType').value);
+            let wastePercent = parseFloat(document.getElementById('waste').value) / 100;
+
+            let areaSqM, totalFabricWeightG, epoxyKg, costLow, costHigh;
+
+            if (system === 'imperial') {
+                let lengthCm = length * 2.54;
+                let widthCm = width * 2.54;
+                areaSqM = (lengthCm * widthCm) / 10000;
+            } else {
+                areaSqM = (length * width) / 10000;
+            }
+
+            totalFabricWeightG = areaSqM * fabricWeight * layers;
+            epoxyKg = areaSqM * ((totalFabricWeightG / areaSqM) + 405) * (1 + wastePercent) / 1000;
+            costLow = epoxyKg * 20;
+            costHigh = epoxyKg * 30;
+
+            if (system === 'imperial') {
+                let areaSqFt = areaSqM * 10.7639;
+                let totalFabricOz = (totalFabricWeightG / 1000) * 35.274;
+                let epoxyOz = epoxyKg * 35.274;
+
+                document.getElementById('resArea').innerText = areaSqFt.toFixed(2) + " sq ft";
+                document.getElementById('resWeight').innerText = totalFabricOz.toFixed(2) + " oz";
+                document.getElementById('resEpoxy').innerText = epoxyOz.toFixed(2) + " oz";
+            } else {
+                document.getElementById('resArea').innerText = areaSqM.toFixed(2) + " sq m";
+                document.getElementById('resWeight').innerText = (totalFabricWeightG / 1000).toFixed(2) + " kg";
+                document.getElementById('resEpoxy').innerText = epoxyKg.toFixed(2) + " kg";
+            }
+
+            document.getElementById('resCost').innerText = "$" + costLow.toFixed(2) + " - $" + costHigh.toFixed(2);
+            document.getElementById('resultsDiv').style.display = 'block';
+        }
+    </script>
+</body>
+</html>
