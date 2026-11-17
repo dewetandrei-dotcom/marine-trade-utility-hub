@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gelcoat Estimator | Marine Trade Utility Hub</title>
-    <meta name="description" content="Calculate the exact amount of gelcoat and catalyst (MEKP) required for your boat repair or refinishing project.">
+    <title>Gelcoat Estimator & Repair Guide | Marine Trade Utility Hub</title>
+    <meta name="description" content="Calculate the exact amount of gelcoat and catalyst (MEKP) required for your boat, and learn how to repair scratches and cracks with our comprehensive guide.">
     <style>
         :root {
             --primary: #003366;
@@ -21,6 +21,7 @@
         nav a:hover { text-decoration: underline; }
         .container { max-width: 800px; margin: 30px auto; background: white; padding: 30px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
         h2 { color: var(--primary); margin-top: 0; }
+        h3 { color: var(--secondary); margin-top: 30px; }
         .input-group { margin-bottom: 20px; }
         label { display: block; font-weight: 600; margin-bottom: 8px; }
         input, select { width: 100%; padding: 10px; box-sizing: border-box; border: 1px solid #ccc; border-radius: 4px; font-size: 16px; }
@@ -33,6 +34,11 @@
         .affiliate-box h3 { margin-top: 0; color: var(--primary); }
         .affiliate-btn { display: inline-block; background-color: #ff9900; color: white; padding: 10px 20px; text-decoration: none; border-radius: 4px; font-weight: bold; margin-top: 10px; }
         .affiliate-btn:hover { background-color: #e68a00; }
+        .guide-section { margin-top: 50px; border-top: 2px solid #ccc; padding-top: 30px; }
+        .guide-section h2 { color: var(--primary); }
+        .guide-section h3 { color: var(--secondary); }
+        .guide-section ul, .guide-section ol { margin-bottom: 20px; }
+        .guide-section li { margin-bottom: 10px; }
     </style>
 </head>
 <body>
@@ -46,13 +52,15 @@
         <a href="small-hole-repair.html">Small Hole Repair</a>
     </nav>
     <div class="container">
+        
+        <!-- CALCULATOR SECTION -->
         <h2>Gelcoat Estimator</h2>
         <p>Calculate the amount of gelcoat and MEKP catalyst you need for your boat's surface area.</p>
 
         <div class="input-group">
             <label>Measurement System:</label>
             <select id="unitSystem" onchange="toggleUnits()">
-                <option value="imperial">Imperial (Feet & Inches)</option>
+                <option value="imperial">Imperial (Feet)</option>
                 <option value="metric">Metric (Meters)</option>
             </select>
         </div>
@@ -93,6 +101,34 @@
                 <p style="font-size: 12px; color: #666; margin-top: 10px;">*We may earn a commission from qualifying purchases.</p>
             </div>
         </div>
+
+        <!-- GUIDE SECTION -->
+        <div class="guide-section">
+            <h2>Gelcoat Repair Guide: Fixing Scratches and Cracks</h2>
+            <p>Gelcoat is the shiny, protective outer layer of your fiberglass boat. It looks great, but it is susceptible to scratches, gouges, and spider cracks (crazing). Learning to repair gelcoat yourself can save you hundreds of dollars in professional labor.</p>
+
+            <h3>Gelcoat vs. Paint: Which should you use?</h3>
+            <p>If your gelcoat is faded or damaged, you have two options: reapply gelcoat or paint the boat.</p>
+            <ul>
+                <li><strong>Gelcoat:</strong> This is the original factory finish. It is incredibly durable, UV resistant, and long-lasting. However, it is difficult to apply (requires a catalyst and precise mixing) and requires a mold-release agent to cure properly, making it hard for DIYers to get a perfect finish. It is best for small, localized repairs.</li>
+                <li><strong>Marine Paint:</strong> Modern two-part polyurethane paints (like Awlgrip or Interlux) are much easier to apply than gelcoat. They offer excellent UV protection and a high-gloss finish. If you are painting the entire hull or large sections, marine paint is usually the better choice for a DIYer.</li>
+            </ul>
+
+            <h3>How to Repair Gelcoat Scratches</h3>
+            <p>If the scratch is shallow and hasn't penetrated the fiberglass, you can often fix it with a gelcoat repair kit. Here is the process:</p>
+            <ol>
+                <li><strong>Clean the area:</strong> Wipe the scratch with acetone to remove wax and dirt.</li>
+                <li><strong>Bevel the edges:</strong> Use a small pick or sandpaper to slightly widen the scratch, creating a "V" shape that will hold the new gelcoat.</li>
+                <li><strong>Mix the gelcoat:</strong> Mix your gelcoat paste with the hardener (usually MEKP). You can also add a coloring agent to match your boat's original color.</li>
+                <li><strong>Apply:</strong> Use a small brush or a syringe to fill the scratch with the gelcoat paste. Overfill it slightly so it sits proud of the surface.</li>
+                <li><strong>Cover and Cure:</strong> Cover the repair with clear tape or a special mold-release film. This blocks the air so the gelcoat cures properly. Wait for it to harden.</li>
+                <li><strong>Sand and Polish:</strong> Once cured, wet-sand the excess gelcoat flush with the surrounding surface (start with 400-grit, then move to 800, then 1500). Finally, use a rubbing compound to restore the shine.</li>
+            </ol>
+
+            <h3>How to Repair Gelcoat Spider Cracks</h3>
+            <p>Spider cracks (or crazing) are small, web-like cracks in the gelcoat. They are usually caused by stress or impact. To fix them, you must grind out the cracks completely (down to the fiberglass) with a Dremel tool, clean with acetone, fill with thickened epoxy, and then apply a new layer of gelcoat.</p>
+        </div>
+
     </div>
 
     <script>
@@ -116,15 +152,13 @@
 
             let areaSqFt, areaSqM, gelcoatQuarts, gelcoatLiters, catalystOz, catalystMl;
 
-            // Approximate hull surface area calculation: Length x Width x 1.5 (to account for hull shape and sides)
+            // Approximate hull surface area calculation: Length x Width x 1.5
             if (system === 'imperial') {
                 areaSqFt = length * width * 1.5;
-                // Coverage approx 1 quart per 40 sq ft per coat
                 gelcoatQuarts = (areaSqFt / 40) * coats;
-                catalystOz = gelcoatQuarts * 32 * catalystPct; // 1 quart = 32 oz
+                catalystOz = gelcoatQuarts * 32 * catalystPct; 
             } else {
                 areaSqM = length * width * 1.5;
-                // Coverage approx 1 liter per 4 sq meters per coat
                 gelcoatLiters = (areaSqM / 4) * coats;
                 catalystMl = gelcoatLiters * 1000 * catalystPct;
             }
